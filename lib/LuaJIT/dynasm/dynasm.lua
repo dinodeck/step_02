@@ -2,7 +2,7 @@
 -- DynASM. A dynamic assembler for code generation engines.
 -- Originally designed and implemented for LuaJIT.
 --
--- Copyright (C) 2005-2012 Mike Pall. All rights reserved.
+-- Copyright (C) 2005-2008 Mike Pall. All rights reserved.
 -- See below for full copyright notice.
 ------------------------------------------------------------------------------
 
@@ -10,14 +10,14 @@
 local _info = {
   name =	"DynASM",
   description =	"A dynamic assembler for code generation engines",
-  version =	"1.3.0",
-  vernum =	 10300,
-  release =	"2011-05-05",
+  version =	"1.1.4",
+  vernum =	 10104,
+  release =	"2008-01-29",
   author =	"Mike Pall",
   url =		"http://luajit.org/dynasm.html",
   license =	"MIT",
   copyright =	[[
-Copyright (C) 2005-2012 Mike Pall. All rights reserved.
+Copyright (C) 2005-2008 Mike Pall. All rights reserved.
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
@@ -259,17 +259,9 @@ local condstack = {}
 
 -- Evaluate condition with a Lua expression. Substitutions already performed.
 local function cond_eval(cond)
-  local func, err
-  if setfenv then
-    func, err = loadstring("return "..cond, "=expr")
-  else
-    -- No globals. All unknown identifiers evaluate to nil.
-    func, err = load("return "..cond, "=expr", "t", {})
-  end
+  local func, err = loadstring("return "..cond)
   if func then
-    if setfenv then
-      setfenv(func, {}) -- No globals. All unknown identifiers evaluate to nil.
-    end
+    setfenv(func, {}) -- No globals. All unknown identifiers evaluate to nil.
     local ok, res = pcall(func)
     if ok then
       if res == 0 then return false end -- Oh well.
@@ -378,12 +370,8 @@ map_coreop[".include_1"] = function(params)
   if fatal then wfatal("in include file") end
 end
 
--- Make .include and conditionals initially available, too.
+-- Make .include initially available, too.
 map_op[".include_1"] = map_coreop[".include_1"]
-map_op[".if_1"] = map_coreop[".if_1"]
-map_op[".elif_1"] = map_coreop[".elif_1"]
-map_op[".else_0"] = map_coreop[".else_0"]
-map_op[".endif_0"] = map_coreop[".endif_0"]
 
 ------------------------------------------------------------------------------
 
@@ -398,7 +386,7 @@ map_coreop[".macro_*"] = function(mparams)
   -- Split off and validate macro name.
   local name = remove(mparams, 1)
   if not name then werror("missing macro name") end
-  if not (match(name, "^[%a_][%w_%.]*$") or match(name, "^%.[%w_%.]*$")) then
+  if not (match(name, "^[%a_][%w_%.]*$") or match(name, "^%.[%w_%.]+$")) then
     wfatal("bad macro name `"..name.."'")
   end
   -- Validate macro parameter names.
@@ -731,10 +719,8 @@ local function splitstmt_one(c)
     splitlvl = ")"..splitlvl
   elseif c == "[" then
     splitlvl = "]"..splitlvl
-  elseif c == "{" then
-    splitlvl = "}"..splitlvl
-  elseif c == ")" or c == "]" or c == "}" then
-    if sub(splitlvl, 1, 1) ~= c then werror("unbalanced (), [] or {}") end
+  elseif c == ")" or c == "]" then
+    if sub(splitlvl, 1, 1) ~= c then werror("unbalanced () or []") end
     splitlvl = sub(splitlvl, 2)
   elseif splitlvl == "" then
     return " \0 "
@@ -750,7 +736,7 @@ local function splitstmt(stmt)
 
   -- Split at commas and equal signs, but obey parentheses and brackets.
   splitlvl = ""
-  stmt = gsub(stmt, "[,%(%)%[%]{}]", splitstmt_one)
+  stmt = gsub(stmt, "[,%(%)%[%]]", splitstmt_one)
   if splitlvl ~= "" then werror("unbalanced () or []") end
 
   -- Split off opcode.
@@ -793,7 +779,7 @@ dostmt = function(stmt)
   if not f then
     if not g_arch then wfatal("first statement must be .arch") end
     -- Improve error report.
-    for i=0,9 do
+    for i=0,16 do
       if map_op[op.."_"..i] then
 	werror("wrong number of parameters for `"..op.."'")
       end
@@ -1073,7 +1059,7 @@ end
 -- Add the directory dynasm.lua resides in to the Lua module search path.
 local arg = arg
 if arg and arg[0] then
-  local prefix = match(arg[0], "^(.*[/\\])")
+  local prefix = match(arg[0], "^(.*/)")
   if prefix then package.path = prefix.."?.lua;"..package.path end
 end
 
