@@ -1,23 +1,23 @@
-#ifndef RESOURCE_H
-#define RESOURCE_H
+#ifndef ASSET_H
+#define ASSET_H
 
 #include <string>
 #include <ctime>
-#include "IResourceLoader.h"
+#include "IAssetLoader.h"
 
 //
-// A resource is something the game uses such as a script file, texture or model
+// An asset is something the game uses such as a script file, texture or model
 //
-class Resource
+class Asset
 {
 private:
 	std::string mPath;
 	std::string mName;
 	bool mIsLoaded;
-	IResourceLoader* mLoader;
+	IAssetLoader* mLoader;
 	time_t mLastModified;
 public:
-	Resource(const char* name, const char* path, IResourceLoader* loader);
+	Asset(const char* name, const char* path, IAssetLoader* loader);
 	void Reload();
 	const std::string& Path() const { return mPath; }
 	bool IsLoaded() const { return mIsLoaded; }

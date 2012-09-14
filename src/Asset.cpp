@@ -1,14 +1,14 @@
-#include "Resource.h"
+#include "Asset.h"
 #include <assert.h>
 #include <stdio.h>
 
-void Resource::Reload()
+void Asset::Reload()
 {
 	assert(mLoader);
 	mIsLoaded = mLoader->Reload(*this);
 }
 
-Resource::Resource(const char* name, const char* path, IResourceLoader* loader)
+Asset::Asset(const char* name, const char* path, IAssetLoader* loader)
 {
 	assert(loader);
 	mName = name;
@@ -17,7 +17,7 @@ Resource::Resource(const char* name, const char* path, IResourceLoader* loader)
 	mIsLoaded = false;
 }
 
-void Resource::SetTimeLastModified(time_t lastModified)
+void Asset::SetTimeLastModified(time_t lastModified)
 {
 	mLastModified = lastModified;
 }

@@ -1,34 +1,32 @@
 #ifndef MAIN_H
 #define MAIN_H
 #include <string>
-#include "IResourceLoader.h"
-#include "ResourceStore.h"
+#include "IAssetLoader.h"
+#include "AssetStore.h"
 
 
 struct SDL_Surface;
 union SDL_Event;
+class DancingSquid;
+class Asset;
 
-class Resource;
-
-class Main : IResourceLoader
+class Main : IAssetLoader
 {
 private:
-	std::string		mName;
 	SDL_Surface* 	mSurface;
-	ResourceStore 	mResourceStore;
-	double 			mDeltaTime;
+	AssetStore 		mAssetStore;
 	bool 			mRunning;
-	int 			mViewWidth;
-    int 			mViewHeight;
+	DancingSquid*	mDancingSquid;
+
     void OnEvent(SDL_Event* event);
-	void OnUpdate();
-	bool ResetRenderWindow();
+	bool ResetRenderWindow(unsigned int width, unsigned int height);
 public:
 	// Callback to reload the manifest
-	virtual bool Reload(Resource& resource);
+	virtual bool Reload(Asset& asset);
 	void Execute();
 	bool Reset();
 	Main();
+	~Main();
 };
 
 #endif
