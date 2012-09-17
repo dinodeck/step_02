@@ -1,12 +1,10 @@
 #include "LuaState.h"
 #include <assert.h>
 
-extern "C"
-{
-#include "lua.h"
-#include "lauxlib.h"
-#include "lualib.h"
-}
+#include "DancingSquidLua.h"
+#include "DSFile.h"
+
+
 
 
 LuaState* LuaState::GetWrapper(lua_State* luaState)
@@ -32,7 +30,7 @@ LuaState::LuaState(const char* name)
 	mName = name;
 	// lua_newstate( MemHandler, NULL ); <- can use this to get some mem stats
 	mLuaState = lua_open();
-	printf("Just opened: %d\n", ItemsInStack());
+
 	luaL_openlibs(mLuaState);
 	// Push minigame instance pointer in the lua state
 	// So for static functions (used by Lua) we can find out the minigame associated with a lua state
@@ -118,25 +116,55 @@ bool LuaState::DoString(const char* str)
 	}
 }
 
+bool LuaState::DoBuffer(const char* name, const char* buffer, unsigned int size)
+{
+    assert(buffer);
+    lua_pushcfunction(mLuaState, LuaState::LuaError);
+    int fail = luaL_loadbuffer
+    (
+        mLuaState,
+        buffer,
+        size,
+        name
+    );
+
+    if(fail)
+    {
+        printf("\n[LUASTATE|%s] Error: %s\n", mName, lua_tostring(mLuaState, -1));
+        return false;
+    }
+    else
+    {
+        // Execute the string on the stack
+        // If anything goes wrong call the function under that
+        bool result = lua_pcall(mLuaState, 0, LUA_MULTRET, -2) == 0;
+        lua_pop(mLuaState, 1); // remove error function
+        return result;
+    }
+}
+
 bool LuaState::DoFile(const char* path)
 {
-	// No package management at the moment so this is simple
-	lua_pushcfunction(mLuaState, LuaState::LuaError);
-	int fail = luaL_loadfile(mLuaState, path);
+    DSFile file(path);
+    file.LoadFileIntoBuffer();
+    return DoBuffer(path, file.Buffer(), file.Size());
+	// // No package management at the moment so this is simple
+	// lua_pushcfunction(mLuaState, LuaState::LuaError);
+	// int fail = luaL_loadfile(mLuaState, path);
 
-	if(fail)
-	{
-		printf("\n[LUASTATE|%s] Error: %s\n", mName, lua_tostring(mLuaState, -1));
-		return false;
-	}
-	else
-	{
-		// Execute the string on the stack
-		// If anything goes wrong call the function under that
-		bool result = lua_pcall(mLuaState, 0, LUA_MULTRET, -2) == 0;
-		lua_pop(mLuaState, 1); // remove error function
-		return result;
-	}
+	// if(fail)
+	// {
+	// 	printf("\n[LUASTATE|%s] Error: %s\n", mName, lua_tostring(mLuaState, -1));
+	// 	return false;
+	// }
+	// else
+	// {
+	// 	// Execute the string on the stack
+	// 	// If anything goes wrong call the function under that
+	// 	bool result = lua_pcall(mLuaState, 0, LUA_MULTRET, -2) == 0;
+	// 	lua_pop(mLuaState, 1); // remove error function
+	// 	return result;
+	// }
 }
 
 std::string LuaState::GetString(const char* key, const char* defaultStr)
@@ -153,4 +181,12 @@ int LuaState::GetInt(const char* key, int defaultInt)
 	int out = luaL_optint (mLuaState, -1, defaultInt);
 	lua_pop(mLuaState, 1); // Remove key,
 	return out;
+}
+
+float LuaState::GetFloat(const char* key, float defaultFloat)
+{
+    lua_getfield(mLuaState, LUA_GLOBALSINDEX, key);
+    int out = luaL_optnumber(mLuaState, -1, defaultFloat);
+    lua_pop(mLuaState, 1); // Remove key,
+    return out;
 }

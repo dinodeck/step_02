@@ -24,10 +24,12 @@ public:
 	// Execute lua string, on error will print error and stacktrace if possible.
 	bool DoString(const char* str);
 	bool DoFile(const char* filepath);
+	bool DoBuffer(const char* name, const char* buffer, unsigned int size);
 
 	// Not sure about this approach.
 	std::string GetString(const char* key, const char* defaultStr);
 	int GetInt(const char* key, int defaultInt);
+	float GetFloat(const char* key, float defaultFloat);
 };
 
 #endif

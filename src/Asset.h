@@ -1,8 +1,9 @@
 #ifndef ASSET_H
 #define ASSET_H
 
-#include <string>
 #include <ctime>
+#include <string>
+
 #include "IAssetLoader.h"
 
 //

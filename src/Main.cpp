@@ -1,44 +1,20 @@
 #include "Main.h"
-#include <stdio.h>
-#include "LuaState.h"
-#include "Asset.h"
-#include "AssetStore.h"
 #include <gl/gl.h>
-#include "SDL/SDL.h"
+#include <stdio.h>
+
 #include "DancingSquid.h"
+#include "physfs.h"
+#include "SDL/SDL.h"
 
-bool Main::Reload(Asset& asset)
-{
-	printf("Reloading Settings");
-	LuaState luaState("Settings");
-	bool success = luaState.DoFile(asset.Path().c_str());
-	if(success)
-	{
-		std::string name = luaState.GetString("name", mDancingSquid->Name().c_str());
-		int width = luaState.GetInt("width", mDancingSquid->ViewWidth());
-		int height = luaState.GetInt("height", mDancingSquid->ViewHeight());
-        mDancingSquid->SetName(name);
-        mDancingSquid->ResetRenderWindow(width, height);
 
-	}
-
-    ResetRenderWindow
-    (
-        mDancingSquid->ViewWidth(),
-        mDancingSquid->ViewHeight()
-    );
-	return success;
-}
 
 
 Main::Main() :
     mSurface(0),
-    mAssetStore(),
     mRunning(true),
     mDancingSquid(NULL)
 {
     mDancingSquid = new DancingSquid("DancingSquid");
-	mAssetStore.Add("settings", "settings.lua", this);
 }
 
 Main::~Main()
@@ -65,16 +41,19 @@ void Main::OnEvent(SDL_Event* event)
             }
             else if(event->key.keysym.sym == SDLK_F2)
             {
-				mAssetStore.Reload();
+                mDancingSquid->ForceReload();
+                ResetRenderWindow();
             }
 
         } break;
     }
 }
 
-bool Main::ResetRenderWindow(unsigned int width, unsigned int height)
+bool Main::ResetRenderWindow( )
 {
     const char* name = mDancingSquid->Name().c_str();
+    unsigned int width = mDancingSquid->ViewWidth();
+    unsigned int height = mDancingSquid->ViewHeight();
     SDL_WM_SetCaption(name, name);
 
     // SDL handles this surface memory, so it can be called multiple times without issue.
@@ -116,7 +95,9 @@ void Main::Execute()
     SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS,  1);
     SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES,  2);
 
-    mAssetStore.Reload();
+    // Done once before maingame loop to force assets to load
+    mDancingSquid->ForceReload();
+    ResetRenderWindow();
 
     unsigned int thisTime = 0;
     unsigned int lastTime = 0;
@@ -154,6 +135,13 @@ void Main::Execute()
 }
 
 int main(int argc, char *argv[]){
+
+    printf("Init physfs\n");
+    PHYSFS_init(argv[0]);
+    PHYSFS_addToSearchPath(PHYSFS_getBaseDir(), 1);
+    PHYSFS_addToSearchPath("data.7z", 1);
+    printf("Init physfs end\n");
+
 	Main main;
 	main.Execute();
 	return 0;

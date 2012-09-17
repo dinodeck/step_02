@@ -1,24 +1,42 @@
 #include "DancingSquid.h"
 #include <cstdio>
 
-#if ANDROID
-#include <GLES/gl.h>
-#include <GLES/glext.h>
-#else
-#include <gl/gl.h>
-#define glOrthof glOrtho
-#endif
-
+#include "Asset.h"
+#include "AssetStore.h"
+#include "DancingSquidGL.h"
+#include "LuaState.h"
 
 DancingSquid::DancingSquid(const std::string& name)
-    : mName(name), mViewWidth(640), mViewHeight(360)
+    : mName(name), mAssetStore(), mViewWidth(640), mViewHeight(360)
 {
-
+    mAssetStore.Add("settings", "settings.lua", this);
 }
 
 DancingSquid::~DancingSquid()
 {
 
+}
+
+bool DancingSquid::Reload(Asset& asset)
+{
+    printf("Reloading Settings\n");
+    LuaState luaState("Settings");
+
+    bool success = luaState.DoFile(asset.Path().c_str());
+    if(success)
+    {
+        std::string name = luaState.GetString("name", Name().c_str());
+        int width = luaState.GetInt("width", ViewWidth());
+        int height = luaState.GetInt("height", ViewHeight());
+        SetName(name);
+        ResetRenderWindow(width, height);
+    }
+    return success;
+}
+
+void DancingSquid::ForceReload()
+{
+    mAssetStore.Reload();
 }
 
 //
@@ -43,7 +61,7 @@ void DancingSquid::ResetRenderWindow(unsigned int width, unsigned int height)
     glMatrixMode(GL_MODELVIEW);
     glEnable(GL_TEXTURE_2D);
     glLoadIdentity();
-    glClearColor(0.0, 1.0, 0.0, 1.0f);
+    glClearColor(0.0, 1.0, 1.0, 1.0f);
 
     // Enabled blending
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

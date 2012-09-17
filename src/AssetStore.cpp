@@ -1,10 +1,14 @@
 #include "AssetStore.h"
-#include "IAssetLoader.h"
+
 #include <map>
-#include <string>
 #include <stdio.h>
-#include <time.h>
+#include <string>
 #include <sys/stat.h>
+#include <time.h>
+
+#include "IAssetLoader.h"
+
+bool AssetStore::CleverReloading = true;
 
 AssetStore::AssetStore()
 {
@@ -31,8 +35,13 @@ void AssetStore::Reload()
 	// If date is later than store date then reload
 	for(std::map<std::string, Asset>::iterator it = mStore.begin(); it != mStore.end(); ++it)
 	{
-		// Not doing date thing yet
 		Asset& asset = it->second;
+
+		if(false == AssetStore::CleverReloading)
+		{
+			asset.Reload();
+			continue;
+		}
 
 		// Be careful when loading from a package.
 		struct stat s;
@@ -48,7 +57,18 @@ void AssetStore::Reload()
 		}
 		else
 		{
-			printf("Loaded [%s] Last Modified [%s]\n", asset.Name().c_str(), ctime(&lastModified));
+			std::string timeString(ctime(&lastModified));
+			// Remove trailing \n from time string
+			{
+				size_t end = timeString.find_last_of('\n');
+				timeString = timeString.substr(0, end);
+			}
+			printf
+			(
+			 	"Loaded [%s] Last Modified [%s]\n",
+			    asset.Name().c_str(),
+			    timeString.c_str()
+			);
 			asset.Reload();
 			asset.SetTimeLastModified(lastModified);
 		}
