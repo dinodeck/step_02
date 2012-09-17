@@ -18,7 +18,7 @@ LOCAL_SRC_FILES := ../../LuaState.cpp \
     ../../AssetStore.cpp \
     ../../DancingSquid.cpp \
     AndroidWrapper.cpp \
-    file_android.cpp \
+    DSFile_Android.cpp \
     bigyama_android.cpp
 LOCAL_LDLIBS    := -llog -lGLESv1_CM
 
