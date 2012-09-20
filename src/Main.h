@@ -1,6 +1,5 @@
 #ifndef MAIN_H
 #define MAIN_H
-#include <string>
 
 struct SDL_Surface;
 union SDL_Event;

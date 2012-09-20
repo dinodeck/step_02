@@ -1,8 +1,9 @@
 #include "Main.h"
-#include <gl/gl.h>
+
 #include <stdio.h>
 
 #include "DancingSquid.h"
+#include "DancingSquidGL.h"
 #include "physfs.h"
 #include "SDL/SDL.h"
 
@@ -134,7 +135,8 @@ void Main::Execute()
 	return;
 }
 
-int main(int argc, char *argv[]){
+int main(int argc, char *argv[])
+{
 
     printf("Init physfs\n");
     PHYSFS_init(argv[0]);

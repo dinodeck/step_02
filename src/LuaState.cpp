@@ -148,23 +148,6 @@ bool LuaState::DoFile(const char* path)
     DSFile file(path);
     file.LoadFileIntoBuffer();
     return DoBuffer(path, file.Buffer(), file.Size());
-	// // No package management at the moment so this is simple
-	// lua_pushcfunction(mLuaState, LuaState::LuaError);
-	// int fail = luaL_loadfile(mLuaState, path);
-
-	// if(fail)
-	// {
-	// 	printf("\n[LUASTATE|%s] Error: %s\n", mName, lua_tostring(mLuaState, -1));
-	// 	return false;
-	// }
-	// else
-	// {
-	// 	// Execute the string on the stack
-	// 	// If anything goes wrong call the function under that
-	// 	bool result = lua_pcall(mLuaState, 0, LUA_MULTRET, -2) == 0;
-	// 	lua_pop(mLuaState, 1); // remove error function
-	// 	return result;
-	// }
 }
 
 std::string LuaState::GetString(const char* key, const char* defaultStr)
