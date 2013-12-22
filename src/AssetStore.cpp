@@ -22,6 +22,7 @@ AssetStore::~AssetStore()
 
 void AssetStore::Add(const char* name, const char* path, IAssetLoader* callback)
 {
+	printf("Adding asset: %s\n", name);
 	mStore.insert(std::pair<std::string, Asset>(
 					std::string(name),
 					Asset(name, path, callback)));

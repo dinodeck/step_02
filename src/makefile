@@ -17,7 +17,7 @@ ifeq (${PLATFORM_DS},MAC)
 	CFLAGS+= -I/opt/local/include -I/opt/local/include/luajit-2.0
 	LDFLAGS+= -L/opt/local/lib -framework OpenGL -framework Cocoa
 	LDFLAGS+= -framework IOKit
-	LDFLAGS+=-lz
+	LDFLAGS+=-lz -pagezero_size 10000 -image_base 100000000
 	LDFLAGS+=/opt/local/lib/libluajit-5.1.a
 	LDFLAGS+=/opt/local/lib/libphysfs.a
 endif

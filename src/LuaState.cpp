@@ -1,10 +1,9 @@
 #include "LuaState.h"
 #include <assert.h>
+#include <stdio.h>
 
 #include "DancingSquidLua.h"
 #include "DSFile.h"
-
-
 
 
 LuaState* LuaState::GetWrapper(lua_State* luaState)
@@ -26,11 +25,12 @@ int LuaState::LuaError(lua_State* luaState)
 }
 
 LuaState::LuaState(const char* name)
+    : mLuaState(NULL)
 {
 	mName = name;
 	// lua_newstate( MemHandler, NULL ); <- can use this to get some mem stats
-	mLuaState = lua_open();
-
+    mLuaState = lua_open();
+    assert(mLuaState);
 	luaL_openlibs(mLuaState);
 	// Push minigame instance pointer in the lua state
 	// So for static functions (used by Lua) we can find out the minigame associated with a lua state
@@ -43,7 +43,10 @@ LuaState::LuaState(const char* name)
 
 LuaState::~LuaState()
 {
-	lua_close(mLuaState);
+    if(mLuaState)
+    {
+	   lua_close(mLuaState);
+    }
 }
 
 void LuaState::OnError()

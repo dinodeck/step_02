@@ -19,12 +19,8 @@ DancingSquid::~DancingSquid()
 
 bool DancingSquid::Reload(Asset& asset)
 {
-    printf("Reloading Settings\n");
     LuaState luaState("Settings");
-
-    printf("Just before DoFile\n");
     bool success = luaState.DoFile(asset.Path().c_str());
-    printf("Just after DoFile\n");
     if(success)
     {
         std::string name = luaState.GetString("name", Name().c_str());
@@ -33,12 +29,14 @@ bool DancingSquid::Reload(Asset& asset)
         SetName(name);
         ResetRenderWindow(width, height);
     }
+
     return success;
 }
 
 void DancingSquid::ForceReload()
 {
     mAssetStore.Reload();
+    printf("After ForceReload.\n");
 }
 
 //
@@ -56,7 +54,7 @@ void DancingSquid::ResetRenderWindow(unsigned int width, unsigned int height)
     glClearColor(0, 0, 0, 0);
     glViewport(0, 0, mViewWidth, mViewHeight);
 
-     // Setups an orthographic view, should be handled by renderer.
+    // Setups an orthographic view, should be handled by renderer.
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glOrthof(0, mViewWidth, mViewHeight, 0, 1, -1);

@@ -97,6 +97,7 @@ void Main::Execute()
     SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES,  2);
 
     // Done once before maingame loop to force assets to load
+    ResetRenderWindow(); // had to move this here for mac!
     mDancingSquid->ForceReload();
     ResetRenderWindow();
 
