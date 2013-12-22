@@ -22,7 +22,9 @@ bool DancingSquid::Reload(Asset& asset)
     printf("Reloading Settings\n");
     LuaState luaState("Settings");
 
+    printf("Just before DoFile\n");
     bool success = luaState.DoFile(asset.Path().c_str());
+    printf("Just after DoFile\n");
     if(success)
     {
         std::string name = luaState.GetString("name", Name().c_str());
