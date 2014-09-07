@@ -2,14 +2,17 @@
 # libluajit-5.1.a is in /opt/local/lib
 CC=g++
 CFLAGS=-c -Wall -Dmain=SDL_main
-CCFLAGS+=-I../lib/LuaJIT/src -I../lib/physfs/
+CFLAGS+=-I../lib/LuaJIT/src -I../lib/physfs/
 LDFLAGS=-lSDLmain -lSDL
 SOURCES=Main.cpp DSFile_Windows.cpp LuaState.cpp Asset.cpp AssetStore.cpp DancingSquid.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=lualoop
 
 ifeq (${PLATFORM_DS},WINDOWS)
-	LDFLAGS+=-L/usr/local/lib -static-libstdc++ -lmingw32 -lopengl32 -lws2_32 -lwinmm
+	CFLAGS+= -I/usr/include
+	CFLAGS+= `sdl-config --cflags`
+	LDFLAGS+= `sdl-config --libs`
+	LDFLAGS+=-L/usr/lib -static-libstdc++ -lmingw32 -lopengl32 -lws2_32 -lwinmm 
 	LDFLAGS+=../lib/LuaJIT/src/libluajit.a ../lib/physfs/libphysfs.a
 endif
 
