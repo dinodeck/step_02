@@ -42,3 +42,7 @@ I find if you do mixed mode, it doesn't generate the .a.
 ## Building on Mac
 
 ![Step 02 running on mac](mac.png)
+
+## Building on Android
+
+If I remember correctly all the assets need copying into the JNI folder before building. Also there's quite _a lot_ of setup required to get android builds working.
