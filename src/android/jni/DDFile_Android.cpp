@@ -1,4 +1,4 @@
-#include "../../DSFile.h"
+#include "../../DDFile.h"
 
 #include <fstream>
 #include <jni.h>
@@ -6,15 +6,15 @@
 
 #include "AndroidWrapper.h"
 
-DSFile* DSFile::OpenFile = NULL;
+DDFile* DDFile::OpenFile = NULL;
 
-DSFile::DSFile(const char* filename)
+DDFile::DDFile(const char* filename)
     : mName(filename), mBuffer(NULL), mSize(0)
 {
 
 }
 
-DSFile::~DSFile()
+DDFile::~DDFile()
 {
     ClearBuffer();
 }
@@ -25,7 +25,7 @@ DSFile::~DSFile()
 // Java calls nativeIFStream which calls
 // SetBuffer
 //
-bool DSFile::LoadFileIntoBuffer()
+bool DDFile::LoadFileIntoBuffer()
 {
     OpenFile = this;
     AndroidWrapper* wrapper = AndroidWrapper::GetInstance();
@@ -34,7 +34,7 @@ bool DSFile::LoadFileIntoBuffer()
     return result;
 }
 
-void DSFile::SetBuffer(char* pData, int iSize)
+void DDFile::SetBuffer(char* pData, int iSize)
 {
     ClearBuffer();
     mBuffer = new char[iSize];
@@ -42,7 +42,7 @@ void DSFile::SetBuffer(char* pData, int iSize)
     mSize = iSize;
 }
 
-void DSFile::ClearBuffer()
+void DDFile::ClearBuffer()
 {
     if(mBuffer)
     {

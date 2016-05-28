@@ -5,7 +5,7 @@ fi
 
 make clean
 rm ./dinodeck
-make PLATFORM_DS=MAC
+make PLATFORM_DD=MAC
 
 if [ -e "/opt/local/lib/libSDL-1.2.0.dylib_" ]
 then

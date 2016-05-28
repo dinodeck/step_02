@@ -1,4 +1,4 @@
-package com.bigyama.dancingsquid;
+package com.dinodeck.dinodeck;
 
 import android.app.Activity;
 import android.content.Context;
@@ -6,16 +6,16 @@ import android.opengl.GLSurfaceView;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-class DSGLSurfaceView extends GLSurfaceView
+class DDGLSurfaceView extends GLSurfaceView
 {
-    DSRenderer mRenderer;
-    DSActivity mActivity;
+    DDRenderer mRenderer;
+    DDActivity mActivity;
 
-    public DSGLSurfaceView(Context context, DSActivity thisActivity)
+    public DDGLSurfaceView(Context context, DDActivity thisActivity)
     {
         super(context);
         mActivity = thisActivity;
-        mRenderer = new DSRenderer(context, thisActivity);
+        mRenderer = new DDRenderer(context, thisActivity);
         setRenderer(mRenderer);
     }
 

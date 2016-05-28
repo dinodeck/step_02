@@ -32,8 +32,8 @@ LuaState::LuaState(const char* name)
     mLuaState = lua_open();
     assert(mLuaState);
 	luaL_openlibs(mLuaState);
-	// Push minigame instance pointer in the lua state
-	// So for static functions (used by Lua) we can find out the minigame associated with a lua state
+	// Push game instance pointer in the lua state
+	// So for static functions (used by Lua) we can find out the game associated with a lua state
 	lua_pushliteral(mLuaState, "this");  /* push value */
     lua_pushlightuserdata(mLuaState, (void *)this);  /* push address */
 
@@ -148,7 +148,7 @@ bool LuaState::DoBuffer(const char* name, const char* buffer, unsigned int size)
 
 bool LuaState::DoFile(const char* path)
 {
-    DSFile file(path);
+    DDFile file(path);
     file.LoadFileIntoBuffer();
     return DoBuffer(path, file.Buffer(), file.Size());
 }

@@ -6,18 +6,18 @@
 #include "DinodeckGL.h"
 #include "LuaState.h"
 
-DancingSquid::DancingSquid(const std::string& name)
+Dinodeck::Dinodeck(const std::string& name)
     : mName(name), mAssetStore(), mViewWidth(640), mViewHeight(360)
 {
     mAssetStore.Add("settings", "settings.lua", this);
 }
 
-DancingSquid::~DancingSquid()
+Dinodeck::~Dinodeck()
 {
 
 }
 
-bool DancingSquid::Reload(Asset& asset)
+bool Dinodeck::Reload(Asset& asset)
 {
     LuaState luaState("Settings");
     bool success = luaState.DoFile(asset.Path().c_str());
@@ -33,7 +33,7 @@ bool DancingSquid::Reload(Asset& asset)
     return success;
 }
 
-void DancingSquid::ForceReload()
+void Dinodeck::ForceReload()
 {
     mAssetStore.Reload();
     printf("After ForceReload.\n");
@@ -42,12 +42,12 @@ void DancingSquid::ForceReload()
 //
 // @deltaTime Number of seconds last frame took
 //              * Capped to 1/60 on Windows
-void DancingSquid::Update(double deltaTime)
+void Dinodeck::Update(double deltaTime)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void DancingSquid::ResetRenderWindow(unsigned int width, unsigned int height)
+void Dinodeck::ResetRenderWindow(unsigned int width, unsigned int height)
 {
     mViewWidth = width;
     mViewHeight = height;

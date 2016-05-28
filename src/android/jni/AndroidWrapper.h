@@ -14,7 +14,7 @@ class AndroidWrapper
 private:
     static AndroidWrapper* Instance;
     JNIEnv* mJNIEnvironment;
-    jclass mDSActivityClass;
+    jclass mDDActivityClass;
     jmethodID mJavaMethod_OpenAsset;
 public:
     static void CreateInstance(JNIEnv* jniEnv)
@@ -27,7 +27,7 @@ public:
     AndroidWrapper(JNIEnv* jniEnv);
 
     JNIEnv* GetJNIEnv() { return mJNIEnvironment; }
-    jclass GetDSAcivityClass() { return mDSActivityClass; }
+    jclass GetDDAcivityClass() { return mDDActivityClass; }
 
     // Functions on the Java side
     bool OpenAsset(const char* name);

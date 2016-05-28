@@ -5,18 +5,18 @@
 
 
 
-class DSFile
+class DDFile
 {
 private:
     // Used to communicate asset loading w/ android
-    static DSFile* OpenFile;
+    static DDFile* OpenFile;
     std::string mName;
     char* mBuffer;
     unsigned int mSize;
 public:
-    static DSFile* GetOpenFile() { return DSFile::OpenFile; }
-    DSFile(const char* filename);
-    ~DSFile();
+    static DDFile* GetOpenFile() { return DDFile::OpenFile; }
+    DDFile(const char* filename);
+    ~DDFile();
     bool LoadFileIntoBuffer();
     void SetBuffer(char* pData, int iSize);
     const char* Buffer() { return mBuffer; }

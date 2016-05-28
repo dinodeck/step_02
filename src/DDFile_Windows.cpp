@@ -5,26 +5,20 @@
 
 #include "physfs.h"
 
-DSFile* DSFile::OpenFile = NULL;
+DDFile* DDFile::OpenFile = NULL;
 
-DSFile::DSFile(const char* filename)
+DDFile::DDFile(const char* filename)
     : mName(filename), mBuffer(NULL), mSize(0)
 {
 
 }
 
-DSFile::~DSFile()
+DDFile::~DDFile()
 {
     ClearBuffer();
 }
 
-//
-// Loads a file from the APK.
-// Calls OpenAsset which talks to Java
-// Java calls nativeIFStream which calls
-// SetBuffer
-//
-bool DSFile::LoadFileIntoBuffer()
+bool DDFile::LoadFileIntoBuffer()
 {
 
     OpenFile = this;
@@ -51,7 +45,7 @@ bool DSFile::LoadFileIntoBuffer()
     return result;
 }
 
-void DSFile::ClearBuffer()
+void DDFile::ClearBuffer()
 {
     if(mBuffer)
     {
@@ -61,7 +55,7 @@ void DSFile::ClearBuffer()
     }
 }
 
-void DSFile::SetBuffer(char* pData, int iSize)
+void DDFile::SetBuffer(char* pData, int iSize)
 {
     ClearBuffer();
     mBuffer = new char[iSize];

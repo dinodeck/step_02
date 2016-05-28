@@ -1,3 +1,3 @@
 make clean
 rm ./dinodeck
-make PLATFORM_DS=WINDOWS
+make PLATFORM_DD=WINDOWS

@@ -13,14 +13,14 @@
 Main::Main() :
     mSurface(0),
     mRunning(true),
-    mDancingSquid(NULL)
+    mDinodeck(NULL)
 {
-    mDancingSquid = new DancingSquid("Dinodeck");
+    mDinodeck = new Dinodeck("Dinodeck");
 }
 
 Main::~Main()
 {
-    delete mDancingSquid;
+    delete mDinodeck;
 }
 
 
@@ -42,7 +42,7 @@ void Main::OnEvent(SDL_Event* event)
             }
             else if(event->key.keysym.sym == SDLK_F2)
             {
-                mDancingSquid->ForceReload();
+                mDinodeck->ForceReload();
                 ResetRenderWindow();
             }
 
@@ -52,9 +52,9 @@ void Main::OnEvent(SDL_Event* event)
 
 bool Main::ResetRenderWindow( )
 {
-    const char* name = mDancingSquid->Name().c_str();
-    unsigned int width = mDancingSquid->ViewWidth();
-    unsigned int height = mDancingSquid->ViewHeight();
+    const char* name = mDinodeck->Name().c_str();
+    unsigned int width = mDinodeck->ViewWidth();
+    unsigned int height = mDinodeck->ViewHeight();
     SDL_WM_SetCaption(name, name);
 
     // SDL handles this surface memory, so it can be called multiple times without issue.
@@ -98,7 +98,7 @@ void Main::Execute()
 
     // Done once before maingame loop to force assets to load
     ResetRenderWindow(); // mac setups up OpenGL here
-    mDancingSquid->ForceReload();
+    mDinodeck->ForceReload();
     ResetRenderWindow(); // height + width info loaded
 
     unsigned int thisTime = 0;
@@ -121,7 +121,7 @@ void Main::Execute()
             OnEvent(&event);
         }
 
-        mDancingSquid->Update(deltaTime);
+        mDinodeck->Update(deltaTime);
 
 		fpsTicks = SDL_GetTicks() - fpsTicks;
         if (fpsTicks < millisecondsPerFrame)

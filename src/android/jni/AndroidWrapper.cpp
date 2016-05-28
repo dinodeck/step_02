@@ -7,11 +7,11 @@ AndroidWrapper* AndroidWrapper::Instance = NULL;
 AndroidWrapper::AndroidWrapper(JNIEnv* jniEnv) :
     mJNIEnvironment(jniEnv)
 {
-    const char* strDSActivity = "com/bigyama/dancingsquid/DSActivity";
-    mDSActivityClass = jniEnv->FindClass(strDSActivity);
+    const char* strDDActivity = "com/dinodeck/dinodeck/DDActivity";
+    mDDActivityClass = jniEnv->FindClass(strDDActivity);
     mJavaMethod_OpenAsset = jniEnv->GetStaticMethodID
     (
-        mDSActivityClass,
+        mDDActivityClass,
         "open_asset",
         "(Ljava/lang/String;)Z"
     );
@@ -22,7 +22,7 @@ bool AndroidWrapper::OpenAsset(const char* name)
     jstring jStrPath = mJNIEnvironment->NewStringUTF(name);
     bool result = mJNIEnvironment->CallStaticBooleanMethod
     (
-        mDSActivityClass,
+        mDDActivityClass,
         mJavaMethod_OpenAsset,
         jStrPath
     );

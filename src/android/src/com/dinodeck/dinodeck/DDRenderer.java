@@ -1,4 +1,4 @@
-package com.bigyama.dancingsquid;
+package com.dinodeck.dinodeck;
 
 import android.content.Context;
 import android.opengl.GLSurfaceView;
@@ -6,18 +6,18 @@ import android.util.DisplayMetrics;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-class DSRenderer implements GLSurfaceView.Renderer
+class DDRenderer implements GLSurfaceView.Renderer
 {
 
-    private static final String TAG = "dsrenderer"; // used for logging
+    private static final String TAG = "ddrenderer"; // used for logging
     private Context mContext;
-    private DSActivity mActivity;
+    private DDActivity mActivity;
     private int mWidth;
     private int mHeight;
     private boolean mResumeThisFrame;
     public static GL10 mGL;
 
-    public DSRenderer(Context context, DSActivity thisActivity)
+    public DDRenderer(Context context, DDActivity thisActivity)
     {
         this.mContext = context;
         this.mActivity = thisActivity;

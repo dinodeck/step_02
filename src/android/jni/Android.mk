@@ -1,5 +1,5 @@
 
-#Bigyama JNI make file
+#JNI make file
 LOCAL_PATH:= $(call my-dir)
 include $(CLEAR_VARS)
 
@@ -10,16 +10,16 @@ include $(PREBUILT_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)
 
-LOCAL_MODULE    := bigyama
+LOCAL_MODULE    := dinodeck
 LOCAL_STATIC_LIBRARIES := lua
 LOCAL_CFLAGS    := -Werror
 LOCAL_SRC_FILES := ../../LuaState.cpp \
     ../../Asset.cpp \
     ../../AssetStore.cpp \
-    ../../DancingSquid.cpp \
+    ../../Dinodeck.cpp \
     AndroidWrapper.cpp \
-    DSFile_Android.cpp \
-    bigyama_android.cpp
+    DDFile_Android.cpp \
+    dinodeck_android.cpp
 LOCAL_LDLIBS    := -llog -lGLESv1_CM
 
 include $(BUILD_SHARED_LIBRARY)

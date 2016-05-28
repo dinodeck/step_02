@@ -3,14 +3,14 @@
 
 struct SDL_Surface;
 union SDL_Event;
-class DancingSquid;
+class Dinodeck;
 
 class Main
 {
 private:
-	SDL_Surface* 	mSurface;
-	bool 			mRunning;
-	DancingSquid*	mDancingSquid;
+	SDL_Surface*   mSurface;
+	bool           mRunning;
+	Dinodeck*      mDinodeck;
 
     void OnEvent(SDL_Event* event);
 	bool ResetRenderWindow();

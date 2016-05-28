@@ -1,4 +1,4 @@
-package com.bigyama.dancingsquid;
+package com.dinodeck.dinodeck;
 
 import android.app.Activity;
 import android.content.res.AssetFileDescriptor;
@@ -15,12 +15,12 @@ import java.io.IOException;
 import java.lang.System;
 
 
-// DancingSquid activity
-public class DSActivity extends Activity
+// Dinodeck activity
+public class DDActivity extends Activity
 {
-    private static final String TAG = "dsactivity"; // used for logging
-    private static DSGLSurfaceView mGLView = null;
-    private static DSActivity mActivity = null;
+    private static final String TAG = "ddactivity"; // used for logging
+    private static DDGLSurfaceView mGLView = null;
+    private static DDActivity mActivity = null;
     private Handler mUpdateTimeHandler = new Handler();
     private long mLastTimeCount;
     private float mDeltaTime;
@@ -41,7 +41,7 @@ public class DSActivity extends Activity
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
-        Log.v(TAG, "dsactivity oncreate called");
+        Log.v(TAG, "ddactivity oncreate called");
         super.onCreate(savedInstanceState);
         mGLView = null;
         // Make activity statically available for functions
@@ -106,7 +106,7 @@ public class DSActivity extends Activity
     void createGLView()
     {
         Log.v(TAG, "creating GL view");
-        mGLView = new DSGLSurfaceView(this, this);
+        mGLView = new DDGLSurfaceView(this, this);
         mGLView.setZOrderOnTop(false);
         setContentView(mGLView);
     }
@@ -166,7 +166,7 @@ public class DSActivity extends Activity
 
     static
     {
-        System.loadLibrary("bigyama");
+        System.loadLibrary("dinodeck");
     }
 }
 

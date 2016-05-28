@@ -1,4 +1,4 @@
-#include "bigyama_android.h"
+#include "dinodeck_android.h"
 
 #include <android/log.h>
 #include <GLES2/gl2.h>
@@ -17,8 +17,8 @@ extern "C"
 #include "lualib.h"
 }
 
-#include "../../DancingSquid.h"
-#include "../../DSFile.h"
+#include "../../Dinodeck.h"
+#include "../../DDFile.h"
 #include "AndroidWrapper.h"
 // Temp for testing.
 #include "../../LuaState.h"
@@ -26,7 +26,7 @@ extern "C"
 
 
 
-DancingSquid* gDancingSquid = NULL;
+Dinodeck* gDinodeck = NULL;
 
 
 #define LOGV(...) __android_log_print(ANDROID_LOG_VERBOSE, "DSNDK", __VA_ARGS__)
@@ -37,20 +37,20 @@ DancingSquid* gDancingSquid = NULL;
 //
 // ACTIVITY
 //
-JNIEXPORT void JNICALL Java_com_bigyama_dancingsquid_DSActivity_nativeOnCreate(
+JNIEXPORT void JNICALL Java_com_dinodeck_dinodeck_DDActivity_nativeOnCreate(
         JNIEnv* env, jobject obj)
 {
     AndroidWrapper::CreateInstance(env);
     AssetStore::CleverReloadingFlag(false);
-    gDancingSquid = new DancingSquid("Dancing Squid"); // Never deleted
+    gDinodeck = new Dinodeck("Dinodeck"); // Never deleted
 }
 
-JNIEXPORT void JNICALL Java_com_bigyama_dancingsquid_DSActivity_nativeIFStream(
+JNIEXPORT void JNICALL Java_com_dinodeck_dinodeck_DDActivity_nativeIFStream(
     JNIEnv* env, jobject obj, jbyteArray arr, int iSize)
 {
     jbyte* c_array = env->GetByteArrayElements(arr, NULL);
 
-    DSFile* pOpenFile = DSFile::GetOpenFile();
+    DDFile* pOpenFile = DDFile::GetOpenFile();
     if(pOpenFile)
     {
         pOpenFile->SetBuffer((char*)(c_array), iSize);
@@ -66,20 +66,20 @@ JNIEXPORT void JNICALL Java_com_bigyama_dancingsquid_DSActivity_nativeIFStream(
 // RENDERER
 //
 
-JNIEXPORT void JNICALL Java_com_bigyama_dancingsquid_DSRenderer_nativeClear(
+JNIEXPORT void JNICALL Java_com_dinodeck_dinodeck_DDRenderer_nativeClear(
     JNIEnv* pJNIEnv, jobject obj)
 {
     glClearColor(0.0, 0.0, 0.0, 0.0f);
 }
 
-JNIEXPORT void JNICALL Java_com_bigyama_dancingsquid_DSRenderer_nativeUpdate(
+JNIEXPORT void JNICALL Java_com_dinodeck_dinodeck_DDRenderer_nativeUpdate(
     JNIEnv*, jobject obj, float dt)
 {
-    gDancingSquid->Update(dt);
+    gDinodeck->Update(dt);
 }
 
-JNIEXPORT void JNICALL Java_com_bigyama_dancingsquid_DSRenderer_nativeResize(
+JNIEXPORT void JNICALL Java_com_dinodeck_dinodeck_DDRenderer_nativeResize(
     JNIEnv*, jobject obj, int width, int height, float dpiX, float dpiY)
 {
-    gDancingSquid->ResetRenderWindow(width, height);
+    gDinodeck->ResetRenderWindow(width, height);
 }
