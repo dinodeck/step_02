@@ -2,8 +2,8 @@
 
 #include <stdio.h>
 
-#include "DancingSquid.h"
-#include "DancingSquidGL.h"
+#include "Dinodeck.h"
+#include "DinodeckGL.h"
 #include "physfs.h"
 #include "SDL/SDL.h"
 
@@ -15,7 +15,7 @@ Main::Main() :
     mRunning(true),
     mDancingSquid(NULL)
 {
-    mDancingSquid = new DancingSquid("DancingSquid");
+    mDancingSquid = new DancingSquid("Dinodeck");
 }
 
 Main::~Main()

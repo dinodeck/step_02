@@ -3,7 +3,7 @@ CC=g++
 CFLAGS=-c -Wall -Dmain=SDL_main
 CFLAGS+=-I../lib/LuaJIT/src -I../lib/physfs/
 LDFLAGS=-lSDLmain -lSDL
-SOURCES=Main.cpp DSFile_Windows.cpp LuaState.cpp Asset.cpp AssetStore.cpp DancingSquid.cpp
+SOURCES=Main.cpp DDFile_Windows.cpp LuaState.cpp Asset.cpp AssetStore.cpp Dinodeck.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=dinodeck
 

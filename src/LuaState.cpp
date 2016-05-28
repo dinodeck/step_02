@@ -2,8 +2,8 @@
 #include <assert.h>
 #include <stdio.h>
 
-#include "DancingSquidLua.h"
-#include "DSFile.h"
+#include "DinodeckLua.h"
+#include "DDFile.h"
 
 
 LuaState* LuaState::GetWrapper(lua_State* luaState)

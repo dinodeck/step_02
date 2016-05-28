@@ -1,9 +1,9 @@
-#include "DancingSquid.h"
+#include "Dinodeck.h"
 #include <cstdio>
 
 #include "Asset.h"
 #include "AssetStore.h"
-#include "DancingSquidGL.h"
+#include "DinodeckGL.h"
 #include "LuaState.h"
 
 DancingSquid::DancingSquid(const std::string& name)

@@ -1,5 +1,5 @@
-#ifndef DANCINGSQUID_H
-#define DANCINGSQUID_H
+#ifndef DINODECK_H
+#define DINODECK_H
 #include <string>
 
 #include "AssetStore.h"

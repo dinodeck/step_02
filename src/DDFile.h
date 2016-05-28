@@ -1,5 +1,5 @@
-#ifndef DSFILE_ANDROID_H
-#define DSFILE_ANDROID_H
+#ifndef DDFILE
+#define DDFILE
 
 #include <string>
 
