@@ -1,14 +1,12 @@
-#2-LuaGameLoop
+# Step 02
 
-Simple GameLoop using OpenGL and SDL and a Lua settings file, that can be dynamically reloaded
+Second step on creating the Dinodeck engine. This adds the PhysFS for package management and LuaJIT. There's now a settings file to control how to launch the engine and it can be dynamically reloaded.
 
-I've provided some of the code in  the library folders but it's best to download a fresh one I think.
+## Building on Windows
 
+![Step 02 running on windows](windows.png)
 
-
-##Building on Windows
-
-For reference I've just built with 
+For reference I've just built with
 
 PhysFS 2.03
 LuaJIT 2.03
@@ -17,7 +15,7 @@ Yeh the same version :o
 
 ###PhysFS
 
-It needs CMake. Download and install it. Possible log in and out to get the env variables registered. In msys you should be able to type
+It needs CMake. Download and install it. You may need log in and out to get the env variables registered. In msys you should be able to type
 
 	cmake
 
@@ -39,4 +37,8 @@ Go to the src directory. Open the makefile and change
 	# Static mode creates a static library and a statically linked luajit.
 	BUILDMODE= static
 
-I find if you do mixed mode, it doesn't generate the .a. 
+I find if you do mixed mode, it doesn't generate the .a.
+
+## Building on Mac
+
+![Step 02 running on mac](mac.png)
