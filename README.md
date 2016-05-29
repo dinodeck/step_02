@@ -15,7 +15,7 @@ Yeh the same version :o
 
 ###PhysFS
 
-It needs CMake. Download and install it. You may need log in and out to get the env variables registered. In msys you should be able to type
+It needs CMake. Download and install it. You may need to log in and out to get the env variables registered. In msys you should be able to type
 
 	cmake
 
